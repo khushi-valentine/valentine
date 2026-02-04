@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Be My Valentine 💖</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      background: pink;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .container {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      text-align: center;
+      width: 90%;
+      max-width: 350px;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      color: #ff4d6d;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    #yesBtn {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    #noBtn {
+      background: #ddd;
+      position: absolute;
+    }
+
+    .message {
+      display: none;
+      color: #ff4d6d;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container" id="card">
+    <h1>Will you be my Valentine? 💘</h1>
+
+    <button id="yesBtn">Yes 💕</button>
+    <button id="noBtn">No 🙃</button>
+
+    <div class="message" id="loveMessage">
+      I love my baby and I promise to love you always ❤️<br><br>
+      Thank you for making me happy always.<br>
+      You mean the entire world to me 🥺🥺💋💋
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const message = document.getElementById("loveMessage");
+    const card = document.getElementById("card");
+
+    function moveNo() {
+      const x = Math.random() * (card.offsetWidth - noBtn.offsetWidth);
+      const y = Math.random() * (card.offsetHeight - noBtn.offsetHeight);
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+
+      if (navigator.vibrate) {
+        navigator.vibrate(100);
+      }
+    }
+
+    noBtn.addEventListener("mouseover", moveNo);
+    noBtn.addEventListener("touchstart", moveNo);
+
+    yesBtn.addEventListener("click", () => {
+      yesBtn.style.display = "none";
+      noBtn.style.display = "none";
+      message.style.display = "block";
+    });
+  </script>
+
+</body>
+</html>
