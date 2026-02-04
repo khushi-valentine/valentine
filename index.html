@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Be My Valentine 💖</title>
 
   <!-- Confetti library -->
@@ -16,12 +16,44 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Arial', sans-serif;
+      font-family: Arial, sans-serif;
       overflow: hidden;
+    }
+
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 12px;
+      opacity: 0.6;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(100vh);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-10vh);
+        opacity: 0;
+      }
     }
 
     .container {
       text-align: center;
+      z-index: 1;
+      position: relative;
+      padding: 20px;
     }
 
     h1 {
@@ -44,7 +76,7 @@
     }
 
     #noBtn {
-      background-color: #fff;
+      background-color: white;
       color: #ff4d6d;
       position: absolute;
     }
@@ -54,12 +86,13 @@
       font-size: 1.3rem;
       color: #b0003a;
       margin-top: 20px;
-      padding: 0 20px;
     }
   </style>
 </head>
 
 <body>
+  <div class="hearts"></div>
+
   <div class="container">
     <h1 id="question">Will you be my Valentine? 💘</h1>
 
@@ -69,8 +102,8 @@
     <div id="message">
       <p><strong>Dhiraj 💕</strong></p>
       <p>
-        I love my baby and I promise to love you always.<br>
-        Thank you for making me happy always.<br>
+        I love my baby and I promise to love you always.<br />
+        Thank you for making me happy always.<br />
         You mean the entire world to me 🥺🥺💋💋
       </p>
     </div>
@@ -95,17 +128,14 @@
       noBtn.style.display = "none";
       message.style.display = "block";
 
-      // CONFETTI BLAST 💥💖
+      // Confetti
       confetti({
         particleCount: 200,
         spread: 120,
         origin: { y: 0.6 }
       });
 
-      // Continuous confetti for 2 seconds
-      const duration = 2000;
-      const end = Date.now() + duration;
-
+      const end = Date.now() + 2000;
       (function frame() {
         confetti({
           particleCount: 5,
@@ -119,12 +149,26 @@
           spread: 55,
           origin: { x: 1 }
         });
-
-        if (Date.now() < end) {
-          requestAnimationFrame(frame);
-        }
+        if (Date.now() < end) requestAnimationFrame(frame);
       })();
     });
+
+    // Floating hearts
+    const heartsContainer = document.querySelector(".hearts");
+
+    setInterval(() => {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerText = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 6 + 10 + "px";
+      heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+      heartsContainer.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 7000);
+    }, 300);
   </script>
 </body>
 </html>
