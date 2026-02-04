@@ -45,7 +45,6 @@ body {
   text-align: center;
   z-index: 1;
   padding: 20px;
-  width: 100%;
   max-width: 350px;
 }
 
@@ -117,7 +116,7 @@ button {
 
   <!-- VALENTINE -->
   <div id="valentine" class="hidden">
-    <h1>Will you be my Valentine? 💘</h1>
+    <h1 id="valQuestion">Will you be my Valentine? 💘</h1>
     <button id="yesBtn">Yes 💖</button>
     <button id="noBtn">No 🙈</button>
 
@@ -141,12 +140,9 @@ function answer(q, isCorrect) {
   if (q === 1 && isCorrect) correct1 = true;
   if (q === 2 && isCorrect) correct2 = true;
 
-  if (!isCorrect) {
-    document.getElementById("hint").innerText =
-      "Oops 😜 Try again, you should know me better!";
-  } else {
-    document.getElementById("hint").innerText = "Hehe 😌 keep going…";
-  }
+  document.getElementById("hint").innerText = isCorrect
+    ? "Hehe 😌 keep going…"
+    : "Oops 😜 Try again!";
 
   if (correct1 && correct2) {
     document.getElementById("quiz").classList.add("hidden");
@@ -154,17 +150,26 @@ function answer(q, isCorrect) {
   }
 }
 
-// No button moves
+// No button runs away
 const noBtn = document.getElementById("noBtn");
-noBtn?.addEventListener("mouseover", () => {
+noBtn.addEventListener("mouseover", () => {
   noBtn.style.left = Math.random() * 70 + "vw";
   noBtn.style.top = Math.random() * 70 + "vh";
 });
 
-// Yes button
-document.getElementById("yesBtn")?.addEventListener("click", () => {
+// YES button logic (THIS IS THE FIX 💖)
+document.getElementById("yesBtn").addEventListener("click", () => {
+  document.getElementById("valQuestion").style.display = "none";
+  document.getElementById("yesBtn").style.display = "none";
+  document.getElementById("noBtn").style.display = "none";
+
   document.getElementById("message").classList.remove("hidden");
-  confetti({ particleCount: 200, spread: 120 });
+
+  confetti({
+    particleCount: 250,
+    spread: 120,
+    origin: { y: 0.6 }
+  });
 });
 
 // Floating hearts
