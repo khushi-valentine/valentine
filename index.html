@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>A Little Puzzle 💖</title>
+<title>A Little Quiz 💖</title>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -45,16 +45,26 @@ body {
   text-align: center;
   z-index: 1;
   padding: 20px;
+  width: 100%;
+  max-width: 350px;
 }
 
-.box {
+.card {
   background: white;
-  padding: 18px;
-  margin: 12px auto;
+  padding: 20px;
   border-radius: 20px;
-  max-width: 280px;
+}
+
+.option {
+  background: #ffe6ee;
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 15px;
   cursor: pointer;
-  font-size: 1.1rem;
+}
+
+.option:hover {
+  background: #ffb3c6;
 }
 
 .hidden {
@@ -88,13 +98,22 @@ button {
 
 <div class="container">
 
-  <!-- PUZZLE -->
-  <h2 id="title">Tap to solve this little puzzle 💗</h2>
+  <!-- QUIZ -->
+  <div id="quiz" class="card">
+    <h2>Answer these correctly 😏💗</h2>
 
-  <div class="box" onclick="nextStep(1)">Tap me 💌</div>
-  <div class="box hidden" id="step1" onclick="nextStep(2)">You make me smile 😊</div>
-  <div class="box hidden" id="step2" onclick="nextStep(3)">You make me feel safe 🤍</div>
-  <div class="box hidden" id="step3" onclick="nextStep(4)">You are my home 🏡</div>
+    <p><strong>1. My favourite food is:</strong></p>
+    <div class="option" onclick="answer(1, true)">🍟 Fries</div>
+    <div class="option" onclick="answer(1, false)">🍕 Pizza</div>
+    <div class="option" onclick="answer(1, false)">🍔 Burger</div>
+
+    <p><strong>2. My favourite thing is:</strong></p>
+    <div class="option" onclick="answer(2, true)">🛍️ Shopping</div>
+    <div class="option" onclick="answer(2, false)">😴 Sleeping</div>
+    <div class="option" onclick="answer(2, false)">✈️ Travelling</div>
+
+    <p id="hint" style="color:#d6336c;"></p>
+  </div>
 
   <!-- VALENTINE -->
   <div id="valentine" class="hidden">
@@ -111,20 +130,31 @@ button {
       </p>
     </div>
   </div>
+
 </div>
 
 <script>
-function nextStep(n) {
-  document.getElementById(`step${n-1}`)?.classList.add("hidden");
-  document.getElementById(`step${n}`)?.classList.remove("hidden");
+let correct1 = false;
+let correct2 = false;
 
-  if (n === 4) {
-    document.getElementById("title").classList.add("hidden");
+function answer(q, isCorrect) {
+  if (q === 1 && isCorrect) correct1 = true;
+  if (q === 2 && isCorrect) correct2 = true;
+
+  if (!isCorrect) {
+    document.getElementById("hint").innerText =
+      "Oops 😜 Try again, you should know me better!";
+  } else {
+    document.getElementById("hint").innerText = "Hehe 😌 keep going…";
+  }
+
+  if (correct1 && correct2) {
+    document.getElementById("quiz").classList.add("hidden");
     document.getElementById("valentine").classList.remove("hidden");
   }
 }
 
-// No button run
+// No button moves
 const noBtn = document.getElementById("noBtn");
 noBtn?.addEventListener("mouseover", () => {
   noBtn.style.left = Math.random() * 70 + "vw";
