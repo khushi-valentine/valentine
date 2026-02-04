@@ -1,174 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Be My Valentine 💖</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A Little Puzzle 💖</title>
 
-  <!-- Confetti library -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: #ffc0cb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-    }
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: #ffc0cb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
 
-    .hearts {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 0;
-    }
+.hearts {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 0;
+}
 
-    .heart {
-      position: absolute;
-      font-size: 12px;
-      opacity: 0.6;
-      animation: floatUp linear infinite;
-    }
+.heart {
+  position: absolute;
+  font-size: 12px;
+  opacity: 0.6;
+  animation: floatUp linear infinite;
+}
 
-    @keyframes floatUp {
-      from {
-        transform: translateY(100vh);
-        opacity: 1;
-      }
-      to {
-        transform: translateY(-10vh);
-        opacity: 0;
-      }
-    }
+@keyframes floatUp {
+  from { transform: translateY(100vh); opacity: 1; }
+  to { transform: translateY(-10vh); opacity: 0; }
+}
 
-    .container {
-      text-align: center;
-      z-index: 1;
-      position: relative;
-      padding: 20px;
-    }
+.container {
+  text-align: center;
+  z-index: 1;
+  padding: 20px;
+}
 
-    h1 {
-      color: #d6336c;
-      font-size: 2.2rem;
-    }
+.box {
+  background: white;
+  padding: 18px;
+  margin: 12px auto;
+  border-radius: 20px;
+  max-width: 280px;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
 
-    button {
-      padding: 14px 26px;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      margin: 10px;
-    }
+.hidden {
+  display: none;
+}
 
-    #yesBtn {
-      background-color: #ff4d6d;
-      color: white;
-    }
+button {
+  padding: 14px 26px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  margin: 10px;
+}
 
-    #noBtn {
-      background-color: white;
-      color: #ff4d6d;
-      position: absolute;
-    }
+#yesBtn {
+  background: #ff4d6d;
+  color: white;
+}
 
-    #message {
-      display: none;
-      font-size: 1.3rem;
-      color: #b0003a;
-      margin-top: 20px;
-    }
-  </style>
+#noBtn {
+  background: white;
+  color: #ff4d6d;
+  position: absolute;
+}
+</style>
 </head>
 
 <body>
-  <div class="hearts"></div>
+<div class="hearts"></div>
 
-  <div class="container">
-    <h1 id="question">Will you be my Valentine? 💘</h1>
+<div class="container">
 
+  <!-- PUZZLE -->
+  <h2 id="title">Tap to solve this little puzzle 💗</h2>
+
+  <div class="box" onclick="nextStep(1)">Tap me 💌</div>
+  <div class="box hidden" id="step1" onclick="nextStep(2)">You make me smile 😊</div>
+  <div class="box hidden" id="step2" onclick="nextStep(3)">You make me feel safe 🤍</div>
+  <div class="box hidden" id="step3" onclick="nextStep(4)">You are my home 🏡</div>
+
+  <!-- VALENTINE -->
+  <div id="valentine" class="hidden">
+    <h1>Will you be my Valentine? 💘</h1>
     <button id="yesBtn">Yes 💖</button>
     <button id="noBtn">No 🙈</button>
 
-    <div id="message">
+    <div id="message" class="hidden">
       <p><strong>Dhiraj 💕</strong></p>
       <p>
-        I love my baby and I promise to love you always.<br />
-        Thank you for making me happy always.<br />
+        I love my baby and I promise to love you always.<br>
+        Thank you for making me happy always.<br>
         You mean the entire world to me 🥺🥺💋💋
       </p>
     </div>
   </div>
+</div>
 
-  <script>
-    const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
-    const message = document.getElementById("message");
-    const question = document.getElementById("question");
+<script>
+function nextStep(n) {
+  document.getElementById(`step${n-1}`)?.classList.add("hidden");
+  document.getElementById(`step${n}`)?.classList.remove("hidden");
 
-    noBtn.addEventListener("mouseover", () => {
-      const x = Math.random() * (window.innerWidth - 100);
-      const y = Math.random() * (window.innerHeight - 50);
-      noBtn.style.left = `${x}px`;
-      noBtn.style.top = `${y}px`;
-    });
+  if (n === 4) {
+    document.getElementById("title").classList.add("hidden");
+    document.getElementById("valentine").classList.remove("hidden");
+  }
+}
 
-    yesBtn.addEventListener("click", () => {
-      question.style.display = "none";
-      yesBtn.style.display = "none";
-      noBtn.style.display = "none";
-      message.style.display = "block";
+// No button run
+const noBtn = document.getElementById("noBtn");
+noBtn?.addEventListener("mouseover", () => {
+  noBtn.style.left = Math.random() * 70 + "vw";
+  noBtn.style.top = Math.random() * 70 + "vh";
+});
 
-      // Confetti
-      confetti({
-        particleCount: 200,
-        spread: 120,
-        origin: { y: 0.6 }
-      });
+// Yes button
+document.getElementById("yesBtn")?.addEventListener("click", () => {
+  document.getElementById("message").classList.remove("hidden");
+  confetti({ particleCount: 200, spread: 120 });
+});
 
-      const end = Date.now() + 2000;
-      (function frame() {
-        confetti({
-          particleCount: 5,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0 }
-        });
-        confetti({
-          particleCount: 5,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1 }
-        });
-        if (Date.now() < end) requestAnimationFrame(frame);
-      })();
-    });
-
-    // Floating hearts
-    const heartsContainer = document.querySelector(".hearts");
-
-    setInterval(() => {
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.innerText = "💖";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = Math.random() * 6 + 10 + "px";
-      heart.style.animationDuration = Math.random() * 3 + 4 + "s";
-      heartsContainer.appendChild(heart);
-
-      setTimeout(() => {
-        heart.remove();
-      }, 7000);
-    }, 300);
-  </script>
+// Floating hearts
+const hearts = document.querySelector(".hearts");
+setInterval(() => {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerText = "💖";
+  h.style.left = Math.random() * 100 + "vw";
+  h.style.fontSize = Math.random() * 6 + 10 + "px";
+  h.style.animationDuration = Math.random() * 3 + 4 + "s";
+  hearts.appendChild(h);
+  setTimeout(() => h.remove(), 7000);
+}, 300);
+</script>
 </body>
 </html>
